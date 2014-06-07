@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>Prax Application</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/config/**/spring/*.xml,classpath*:com/prax/**/*Context.xml</param-value>
+	</context-param>
+	<!--
+		Spring framework now loaded using the ContextLoaderListener. This is
+		the recommended way for servlet 2.4 based application
+	-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.prax.framework.boostrap.WebAppRootContextListener</listener-class>
+	</listener>
+	
+	<!-- Standard Action Servlet Configuration (with debugging) -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>com.prax.framework.controller.Controller</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/config/core/struts/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Standard Action Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>winxin</servlet-name>
+		<servlet-class>com.prax.wechat.WechatServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>winxin</servlet-name>
+		<url-pattern>/wx/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Character Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Domain filter-->
+	<filter>
+		<filter-name>domainFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>domainFilter</filter-name>
+		<url-pattern>/wx/*</url-pattern>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
+	
+	<!-- Wechat filter-->
+	<filter>
+		<filter-name>wechatAuthFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>wechatAuthFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- SpringSecurity filter-->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+</web-app>

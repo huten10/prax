@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="bindingForm" type="com.prax.framework.base.action.BindingActionForm"/>
+	</form-beans>
+	
+	<action-mappings type="com.prax.framework.base.action.BaseActionMapping">
+		
+		<action path="/login" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
+			<forward name="SUCCESS" path=".login"/>
+		</action>
+		
+		<action path="/register" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
+			<forward name="SUCCESS" path=".register"/>
+		</action>
+		
+		<action path="/welcome" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
+			<forward name="SUCCESS" path=".welcome"/>
+		</action>
+		
+		<action path="/wechat/user/save" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
+			<set-property property="dataAttribute" value="user"/>
+			<forward name="SUCCESS" path="/welcome.do" redirect="true"/>
+		</action>
+		
+		<action path="/profile" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
+			<set-property property="dataAttribute" value="user"/>
+			<forward name="SUCCESS" path=".profile"/>
+		</action>
+		
+	</action-mappings>
+	
+	<controller processorClass="org.springframework.web.struts.AutowiringTilesRequestProcessor"/>
+	
+	<message-resources parameter="java.resources.application"/>
+	
+	<plug-in className="com.prax.framework.controller.plugin.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/config/core/struts/tiles/tiles-defs.xml"/>
+		<set-property property="moduleAware" value="true"/>
+		<set-property property="definitions-parser-validate" value="true"/>
+	</plug-in>
+	
+	
+</struts-config>

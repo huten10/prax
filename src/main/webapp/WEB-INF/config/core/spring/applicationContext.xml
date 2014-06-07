@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!-- Required for Spring databinder -->
+   	<bean name="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+	<!-- Base Service Configuration -->
+	<bean id="baseService" class="com.prax.framework.base.service.ServiceImpl" lazy-init="true">
+		<property name="dao" ref="baseHibDao"/>
+	</bean>
+
+   	<!-- Base Hibernate DAO Configuration -->
+	<bean id="baseHibDao" class="com.prax.framework.base.dao.hibernate.BaseDaoHibernate" lazy-init="true">
+	    <property name="sessionFactory" ref="factory"/>
+	</bean>
+
+</beans>

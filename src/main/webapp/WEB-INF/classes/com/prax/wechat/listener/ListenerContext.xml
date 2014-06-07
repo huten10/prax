@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="abstractMessageListener" class="com.prax.wechat.listener.AbstractMessageListener" abstract="true">
+		<property name="operations" ref="wechatOperations"/>
+		<property name="userService" ref="UserService"/>
+	</bean>
+	<bean class="com.prax.wechat.listener.UserCommond" parent="abstractMessageListener"/>
+	<bean class="com.prax.wechat.listener.UserClick" parent="abstractMessageListener"/>
+	<bean class="com.prax.wechat.listener.UserSubscribe" parent="abstractMessageListener"/>
+	<bean class="com.prax.wechat.listener.UserUnSubscribe" parent="abstractMessageListener"/>
+	<bean class="com.prax.wechat.listener.UserLocation" parent="abstractMessageListener"/>
+	<bean class="com.prax.wechat.listener.UserVoice" parent="abstractMessageListener"/>
+</beans>

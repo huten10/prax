@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- User Service Bean -->
+	<bean id="DomainDao" parent="baseHibDao">
+		<constructor-arg><value>com.prax.core.domain.entity.Domain</value></constructor-arg>
+	</bean>
+	<bean id="DomainService" class="com.prax.core.domain.service.DomainServiceImpl"  parent="baseService">
+		<property name="dao" ref="DomainDao"/>
+	</bean>
+</beans>

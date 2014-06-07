@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
+
+<form-validation>
+	<global/>
+	<formset>
+		<constant>
+			<constant-name>email</constant-name>
+			<constant-value>^\d{5}\d*$</constant-value>
+		</constant>
+		<constant>
+			<constant-name>resourcename</constant-name>
+			<constant-value>^[a-zA-Z0-9\.\-_]*$</constant-value>
+		</constant>
+		<constant>
+			<constant-name>testValidTabItemRow</constant-name>
+			<constant-value>( (validTabItemRow[] == "false") or (*this* != null ) )</constant-value>
+		</constant>
+		<constant>
+			<constant-name>maskForphone</constant-name>
+			<constant-value>^\(\d\d\d\)?\s*\d\d\d\s*[\.-]?\s*\d\d\d\d*$</constant-value>
+		</constant>
+		<constant>
+			<constant-name>testValidDependentRow</constant-name>
+			<constant-value>((validDepRow[] == "false") or (*this* != null ) )</constant-value>
+		</constant>
+		<form name="loginForm">
+			<field property="Login.UserName" depends="required"/>
+			<field property="Login.Password" depends="required"/>
+		</form>
+	</formset>
+</form-validation>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+          "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+	<definition name=".mainLayout" path="/core/layout/mainLayout.jsp">
+		<put name="PAGE_TITLE" value="" />
+		<put name="content" value="/core/layout/blank.jsp"/>
+		<put name="footer" value="/core/layout/footer.jsp"/>
+	</definition>
+	
+	<definition name=".welcome" extends=".mainLayout">
+		<put name="PAGE_TITLE" value="欢迎" />
+		<put name="content" value="/core/welcome.jsp"/>
+	</definition>
+	
+	<definition name=".login" path="/core/login.jsp">
+		<put name="PAGE_TITLE" value="登录" />
+	</definition>
+	
+	<definition name=".register" path="/we/register.jsp">
+		<put name="PAGE_TITLE" value="注册" />
+	</definition>
+	
+	<definition name=".profile" extends=".mainLayout">
+		<put name="PAGE_TITLE" value="用户资料" />
+		<put name="content" value="/core/profile.jsp"/>
+	</definition>
+	
+</tiles-definitions>
