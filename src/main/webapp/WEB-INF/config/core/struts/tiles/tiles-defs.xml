@@ -20,7 +20,7 @@
 		<put name="PAGE_TITLE" value="登录" />
 	</definition>
 	
-	<definition name=".register" path="/we/register.jsp">
+	<definition name=".register" path="/core/register.jsp">
 		<put name="PAGE_TITLE" value="注册" />
 	</definition>
 	

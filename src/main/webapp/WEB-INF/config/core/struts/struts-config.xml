@@ -20,7 +20,7 @@
 			<forward name="SUCCESS" path=".welcome"/>
 		</action>
 		
-		<action path="/wechat/user/save" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
+		<action path="/wechat/user/saveProfile" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
 			<set-property property="dataAttribute" value="user"/>
 			<forward name="SUCCESS" path="/welcome.do" redirect="true"/>
 		</action>

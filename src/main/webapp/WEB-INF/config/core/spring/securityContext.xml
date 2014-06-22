@@ -46,7 +46,7 @@
 		type="authorization_code" client-authentication-scheme="query"
 		user-authorization-uri="https://open.weixin.qq.com/connect/oauth2/authorize"
 		access-token-uri="https://api.weixin.qq.com/sns/oauth2/access_token"
-		pre-established-redirect-uri="http://huten10.vicp.cc/prax/welcome.do"
+		pre-established-redirect-uri="http://54.187.0.194/prax/welcome.do"
 		scope="snsapi_base" />
 	
 	<bean id="wechatAccessAuthenticateHandler" class="com.prax.wechat.oauth2.WechatClientAuthenticateHandler" />

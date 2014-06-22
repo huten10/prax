@@ -21,7 +21,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	private static User admin = new User();
 	static {
 		admin.setLogin("ADMIN");
-		admin.setPassword("123456");
+		admin.setPassword("123!@#");
 		admin.setName("管理员");
 		admin.setProfile(new Profile());
 		admin.getProfile().setNickName("管理员");
