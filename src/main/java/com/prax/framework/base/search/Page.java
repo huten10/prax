@@ -31,8 +31,11 @@ public class Page<T> {
     protected String orderBy = null;
     protected String order = null;
     protected boolean autoCount = true;
+    
+    //Eager fetch properties
+    private String[] fetchProps;
 
-    // -- 返回结果 --//
+	// -- 返回结果 --//
     protected List<T> result = new ArrayList<T>();
     protected long totalCount = -1;
 
@@ -174,6 +177,14 @@ public class Page<T> {
         setAutoCount(theAutoCount);
         return this;
     }
+    
+    public String[] getFetchProps() {
+		return fetchProps;
+	}
+
+	public void setFetchProps(String[] fetchProps) {
+		this.fetchProps = fetchProps;
+	}
 
     // -- 访问查询结果函数 --//
 

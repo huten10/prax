@@ -211,21 +211,6 @@ For tablets and phones
 	}
 
 	/***
-	Page title
-	***/
-	.page-title {
-	  margin: -50px 0px;
-	  color: white;
-	  font-size: large;
-	}
-	/***
-	breadcrumb
-	***/
-	.breadcrumb{
-	  margin: -10px 0px 10px !important;
-	}
-
-	/***
 	Styler panel
 	***/
 	.styler-panel {
@@ -469,6 +454,17 @@ For tablets and phones
 	.page-title small {
 		display: block;
 		clear: both;
+	}
+	.page-title {
+	  margin: -50px 0px;
+	  color: white;
+	  font-size: large;
+	}
+	/***
+	breadcrumb
+	***/
+	.breadcrumb{
+	  margin: 60px 0px 10px !important;
 	}
 
 	/***

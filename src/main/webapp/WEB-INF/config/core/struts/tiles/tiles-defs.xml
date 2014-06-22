@@ -29,4 +29,17 @@
 		<put name="content" value="/core/profile.jsp"/>
 	</definition>
 	
+	<definition name=".core.user.list" extends=".mainLayout">
+		<put name="PAGE_TITLE" value="用户列表" />
+		<put name="content" value="/core/user/userList.jsp"/>
+	</definition>
+	<definition name=".core.user.add" extends=".mainLayout">
+		<put name="PAGE_TITLE" value="新增用户" />
+		<put name="content" value="/core/user/userEdit.jsp"/>
+	</definition>
+	<definition name=".core.user.edit" extends=".mainLayout">
+		<put name="PAGE_TITLE" value="编辑用户" />
+		<put name="content" value="/core/user/userEdit.jsp"/>
+	</definition>
+	
 </tiles-definitions>

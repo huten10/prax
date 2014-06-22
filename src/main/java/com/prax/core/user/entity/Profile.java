@@ -59,6 +59,8 @@ public class Profile extends DomainEntity {
 
 	private String email;
 
+	private String company;
+
 	private String address;
 
 	@Column
@@ -176,6 +178,15 @@ public class Profile extends DomainEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Column
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 	@Column

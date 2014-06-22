@@ -1,14 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="org.springframework.security.core.Authentication"%>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder"%>
-<%@ page import="org.springframework.security.core.Authentication"%>
-<%@ page import="com.prax.core.user.entity.User"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%
-Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-User user = (User)auth.getPrincipal();
-%>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/core/common/taglibs.jsp" %>
 <!-- BEGIN PAGE HEADER-->
 <div class="row-fluid">

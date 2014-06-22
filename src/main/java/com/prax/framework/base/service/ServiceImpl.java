@@ -13,12 +13,15 @@ package com.prax.framework.base.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prax.framework.base.dao.Dao;
 import com.prax.framework.base.dao.hibernate.HibernateDao;
 import com.prax.framework.base.search.Page;
+import com.prax.framework.base.search.PropertyFilter;
 import com.prax.framework.util.ExceptionUtils;
 
 /*
@@ -52,8 +55,9 @@ public class ServiceImpl<T> implements Service<T> {
 		T o = null;
 		try {
 			o = type.newInstance();
-		} catch (Exception e) {
-			//正常情况下不会发生，如果发了异常之间抛出。
+		}
+		catch (Exception e) {
+			// 正常情况下不会发生，如果发了异常之间抛出。
 			throw ExceptionUtils.wrapThrow(e);
 		}
 		return o;
@@ -61,6 +65,14 @@ public class ServiceImpl<T> implements Service<T> {
 
 	public Page<T> findAll(Page<T> page) {
 		return getHibernateDao().findAll(page);
+	}
+
+	public Page<T> findPage(Page<T> page, Criterion... criterions) {
+		return getHibernateDao().findPage(page, criterions);
+	}
+
+	public Page<T> findPage(Page<T> page, List<PropertyFilter> filters) {
+		return getHibernateDao().findPage(page, filters);
 	}
 
 	public T get(Serializable id, String[] fetchProps) {

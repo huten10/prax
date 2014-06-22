@@ -34,7 +34,7 @@ User user = (User)auth.getPrincipal();
 	<div class="span12">
 		<div class="span3 user"><img alt="" src="<c:out value="${user.profile.headImgUrl}" />" /></div>
 		<div class="span9">
-			<form action="wechat/user/save.do" id="profile_form" class="form-vertical" method="POST">
+			<form action="wechat/user/saveProfile.do" id="profile_form" class="form-vertical" method="POST">
 				<div class="control-group">
 					<label class="control-label">昵称</label>
 					<div class="controls">
@@ -57,6 +57,12 @@ User user = (User)auth.getPrincipal();
 					<label class="control-label">邮箱</label>
 					<div class="controls">
 						<input type="text" name="profile.email" value="<c:out value="${user.profile.email}"/>" data-msg-email="请输入合法的邮箱地址。" class="span6 m-wrap email">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">单位</label>
+					<div class="controls">
+						<input type="text" name="profile.company" value="<c:out value="${user.profile.address}"/>" class="span6 m-wrap">
 					</div>
 				</div>
 				<div class="control-group">

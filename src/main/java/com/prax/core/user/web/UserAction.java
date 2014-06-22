@@ -17,6 +17,8 @@ import com.prax.core.user.service.UserService;
 import com.prax.framework.base.action.BaseAction;
 import com.prax.framework.base.action.BaseActionMapping;
 import com.prax.framework.base.action.BindingActionForm;
+import com.prax.framework.base.search.Page;
+import com.prax.framework.base.search.PropertyFilter;
 
 /**
  * @author Huanan
@@ -33,7 +35,7 @@ public class UserAction extends BaseAction {
 	}
 
 	protected boolean isHttpMethodAllowed(String httpMethod, String methodId) {
-		if ("doSave".equalsIgnoreCase(methodId)) {
+		if ("doSaveProfile".equalsIgnoreCase(methodId)) {
 			return true;
 		}
 		else if ("doWelcome".equalsIgnoreCase(methodId)) {
@@ -46,6 +48,21 @@ public class UserAction extends BaseAction {
 			return true;
 		}
 		else if ("doProfile".equalsIgnoreCase(methodId)) {
+			return true;
+		}
+		else if ("doList".equalsIgnoreCase(methodId)) {
+			return true;
+		}
+		else if ("doEdit".equalsIgnoreCase(methodId)) {
+			return true;
+		}
+		else if ("doDelete".equalsIgnoreCase(methodId)) {
+			return true;
+		}
+		else if ("doSave".equalsIgnoreCase(methodId)) {
+			return true;
+		}
+		else if ("doAdd".equalsIgnoreCase(methodId)) {
 			return true;
 		}
 		return super.isHttpMethodAllowed(httpMethod, methodId);
@@ -73,7 +90,7 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public Object doSave(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+	public Object doSaveProfile(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -86,17 +103,89 @@ public class UserAction extends BaseAction {
 
 		return SUCCESS;
 	}
-	
+
 	public Object doProfile(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+			HttpServletResponse response) throws Exception {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User currentUser = (User) auth.getPrincipal();
-		User user = userService.get(currentUser.getUuid(), new String[] { "profile" });
-        request.setAttribute(bam.getDataAttribute(), user);
+		User user = null;
+		if (currentUser.getLogin().equalsIgnoreCase("admin")) {
+			user = currentUser;
+		}
+		else {
+			user = userService.get(currentUser.getUuid(), new String[] { "profile" });
+		}
+		request.setAttribute(bam.getDataAttribute(), user);
 
-        getBinder(user, bam, request, (BindingActionForm) form);
+		getBinder(user, bam, request, (BindingActionForm) form);
 
-        return SUCCESS;
-    }
+		return SUCCESS;
+	}
+
+	public Object doList(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		Page<User> page = new Page<User>(10);
+		getBinder(page, bam, request);
+
+		page.setFetchProps(new String[] { "profile" });
+		page = userService.findPage(page, PropertyFilter.buildFilers(request));
+		request.setAttribute(bam.getDataAttribute(), page);
+
+		return SUCCESS;
+	}
+
+	public Object doEdit(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		User user = userService.get(getUuid(request), new String[] { "profile" });
+		request.setAttribute(bam.getDataAttribute(), user);
+
+		getBinder(user, bam, request, (BindingActionForm) form);
+
+		return SUCCESS;
+	}
+
+	public Object doAdd(BaseActionMapping bam, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		User user = new User();
+		request.setAttribute(bam.getDataAttribute(), user);
+
+		getBinder(user, bam, request, (BindingActionForm) form);
+
+		return SUCCESS;
+	}
+
+	public Object doDelete(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		userService.delete(getUuid(request));
+		return SUCCESS;
+	}
+
+	public Object doSave(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String uuid = getUuid(request);
+		boolean isNew = uuid == null;
+		User user = null;
+		if (isNew)
+			user = new User();
+		else
+			user = userService.get(getUuid(request), new String[] { "profile" });
+
+		getBinder(user, bam, request);
+		userService.add(user);
+
+		return SUCCESS;
+	}
+
+	private String getUuid(HttpServletRequest request) {
+		String uuid = request.getParameter("uuid");
+		if (uuid == null || uuid.length() == 0)
+			return null;
+		else
+			return uuid;
+	}
 }
