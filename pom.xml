@@ -22,6 +22,14 @@
 			</snapshots>
 			<url>http://mvnrepository.com</url>
 		</repository>
+		<repository>
+			<id>sonatype</id>
+			<name>sonatype</name>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>http://repository.sonatype.org/content/groups/public/</url>
+		</repository>
 	</repositories>
 	<build>
 		<finalName>prax</finalName>
@@ -555,12 +563,7 @@
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
-			<version>1.2.2.c</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.4</version>
+			<version>1.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sybase</groupId>
