@@ -543,17 +543,18 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>0.0.1</version>
+			<version>20090211</version>
 		</dependency>
 		<dependency>
-			<groupId>json-lib</groupId>
+			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
-			<version>2.2.1-jdk15</version>
+			<version>2.2.1</version>
+			<classifier>jdk15</classifier>
 		</dependency>
 		<dependency>
-			<groupId>ezmorph</groupId>
+			<groupId>net.sf.ezmorph</groupId>
 			<artifactId>ezmorph</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-el</groupId>
