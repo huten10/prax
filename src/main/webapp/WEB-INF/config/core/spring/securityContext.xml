@@ -18,6 +18,7 @@
 	
 	<s:http auto-config="true" use-expressions="true">
 		<s:intercept-url pattern="/**" access="hasAnyRole('USER')" />
+		<s:intercept-url pattern="/user/list.do" access="hasAnyRole('ADMIN')" />
 		<s:custom-filter ref="wechatFilter" after="SECURITY_CONTEXT_FILTER" />
 		<s:form-login login-page="/login.do" default-target-url="/"
 			authentication-failure-url="/login.do?error=true" />

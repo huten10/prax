@@ -12,12 +12,17 @@ import org.springframework.web.client.RestTemplate;
 public class WechatOperations {
 
 	private static String ACCESS_TOKEN_URI = "https://api.weixin.qq.com/cgi-bin/token";
+
 	private static String USER_INFO_URI = "https://api.weixin.qq.com/cgi-bin/user/info?lang=zh_CN";
 
+	private static String USER_GET_URI = "https://api.weixin.qq.com/cgi-bin/user/get";
+
 	private AccessToken accessToken;
-	
+
 	private String appId;
+
 	private String secret;
+
 	private String grantType = "client_credential";
 
 	private RestTemplate restTemplate = new RestTemplate();
@@ -68,6 +73,12 @@ public class WechatOperations {
 		userInfoUri = userInfoUri + "&access_token=" + getAccessToken().getValue();
 		userInfoUri = userInfoUri + "&openid=" + openId;
 		return restTemplate.getForObject(userInfoUri, UserInfo.class);
+	}
+
+	public UserPage getUsers() {
+		String userInfoUri = USER_GET_URI;
+		userInfoUri = userInfoUri + "&access_token=" + getAccessToken().getValue();
+		return restTemplate.getForObject(userInfoUri, UserPage.class);
 	}
 
 }

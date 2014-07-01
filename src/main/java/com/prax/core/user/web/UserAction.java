@@ -12,13 +12,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.prax.core.user.entity.Profile;
 import com.prax.core.user.entity.User;
 import com.prax.core.user.service.UserService;
 import com.prax.framework.base.action.BaseAction;
 import com.prax.framework.base.action.BaseActionMapping;
 import com.prax.framework.base.action.BindingActionForm;
+import com.prax.framework.base.model.UCN;
 import com.prax.framework.base.search.Page;
 import com.prax.framework.base.search.PropertyFilter;
+import com.prax.framework.context.Context;
+import com.prax.wechat.UserInfo;
+import com.prax.wechat.UserPage;
+import com.prax.wechat.WechatOperations;
 
 /**
  * @author Huanan
@@ -28,10 +34,18 @@ public class UserAction extends BaseAction {
 
 	private UserService userService;
 
+	private WechatOperations operations;
+
 	@Autowired
 	@Qualifier("UserService")
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	@Autowired
+	@Qualifier("wechatOperations")
+	public void setOperations(WechatOperations operations) {
+		this.operations = operations;
 	}
 
 	protected boolean isHttpMethodAllowed(String httpMethod, String methodId) {
@@ -63,6 +77,9 @@ public class UserAction extends BaseAction {
 			return true;
 		}
 		else if ("doAdd".equalsIgnoreCase(methodId)) {
+			return true;
+		}
+		else if ("doSyncUser".equalsIgnoreCase(methodId)) {
 			return true;
 		}
 		return super.isHttpMethodAllowed(httpMethod, methodId);
@@ -133,6 +150,41 @@ public class UserAction extends BaseAction {
 		page = userService.findPage(page, PropertyFilter.buildFilers(request));
 		request.setAttribute(bam.getDataAttribute(), page);
 
+		return SUCCESS;
+	}
+
+	public Object doSyncUser(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		UserPage data = operations.getUsers();
+		UCN domain = Context.getCurrentDomain();
+		for (String operId : data.getUsers()) {
+			User user = userService.getByExtenralId(operId, new String[] { "profile" });
+			if (user == null) {
+				UserInfo userInfo = operations.getUserInfo(operId);
+				user = new User();
+				user.setDomainUuid(domain.getUuid());
+				user.setExtenralId(userInfo.getOpenid());
+				user.setLogin("WX_" + System.currentTimeMillis());
+				user.setName(userInfo.getNickname());
+
+				Profile profile = new Profile();
+				user.setProfile(profile);
+				profile.setDomainUuid(domain.getUuid());
+				profile.setCity(userInfo.getCity());
+				profile.setCountry(userInfo.getCountry());
+				profile.setHeadImgUrl(userInfo.getHeadimgurl());
+				profile.setLanguage(userInfo.getLanguage());
+				profile.setNickName(userInfo.getNickname());
+				profile.setOpenId(userInfo.getOpenid());
+				profile.setProvince(userInfo.getProvince());
+				profile.setSex(userInfo.getSex());
+				profile.setSubscribeTime(userInfo.getSubscribe_time());
+				profile.setSubscribe(userInfo.isSubscribe());
+
+				user.getProfile().setSubscribe(Boolean.TRUE);
+				userService.add(user);
+			}
+		}
 		return SUCCESS;
 	}
 
