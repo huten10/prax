@@ -12,6 +12,17 @@
 		<spring.version>3.1.3.RELEASE</spring.version>
 		<jackson2.version>2.1.1</jackson2.version>
 	</properties>
+	
+	<repositories>
+		<repository>
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>http://mvnrepository.com</url>
+		</repository>
+	</repositories>
 	<build>
 		<finalName>prax</finalName>
 
