@@ -77,7 +77,7 @@ public class WechatOperations {
 
 	public UserPage getUsers() {
 		String userInfoUri = USER_GET_URI;
-		userInfoUri = userInfoUri + "&access_token=" + getAccessToken().getValue();
+		userInfoUri = userInfoUri + "?&access_token=" + getAccessToken().getValue();
 		return restTemplate.getForObject(userInfoUri, UserPage.class);
 	}
 
