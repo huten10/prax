@@ -6,10 +6,13 @@ package com.prax.wechat;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Huanan
  * 
  */
+@JsonIgnoreProperties
 public class UserInfo implements Serializable {
 
 	private static final long serialVersionUID = 8613402808212130404L;
@@ -33,6 +36,16 @@ public class UserInfo implements Serializable {
 	private String headimgurl;
 
 	private Date subscribe_time;
+
+	private String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public boolean isSubscribe() {
 		return subscribe;

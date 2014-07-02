@@ -8,10 +8,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Huanan
  * 
  */
+@JsonIgnoreProperties
 public class UserPage implements Serializable {
 
 	private static final long serialVersionUID = 8613402808212130404L;
