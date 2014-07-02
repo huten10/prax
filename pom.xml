@@ -9,7 +9,6 @@
 	<url>http://maven.apache.org</url>
 	
 	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.1.3.RELEASE</spring.version>
 		<jackson2.version>2.1.1</jackson2.version>
 	</properties>
@@ -112,6 +111,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<encoding>GBK</encoding>
 				</configuration>
 			</plugin>
 
