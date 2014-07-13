@@ -182,6 +182,8 @@ public class UserAction extends BaseAction {
 				profile.setSubscribe(userInfo.isSubscribe());
 
 				user.getProfile().setSubscribe(Boolean.TRUE);
+
+				mlLogger.info("sync user " + userInfo.getNickname() + "....");
 				userService.add(user);
 			}
 		}
