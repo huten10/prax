@@ -13,7 +13,7 @@
 	</div>
 	<div class="content">
 		<!-- BEGIN LOGIN FORM -->
-		<form class="form-vertical login-form" action="wechat/user/saveProfile" method="post">
+		<form class="form-vertical login-form" action="wechat/user/saveProfile.do" method="post">
 			<h3 class="form-title">注册</h3>
 			<div class="control-group">
 				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
