@@ -20,8 +20,13 @@
 		<put name="PAGE_TITLE" value="登录" />
 	</definition>
 	
-	<definition name=".register" path="/core/register.jsp">
+	<definition name=".register" extends=".mainLayout">
 		<put name="PAGE_TITLE" value="注册" />
+	</definition>
+	
+	<definition name=".password" extends=".mainLayout">
+		<put name="PAGE_TITLE" value="修改密码" />
+		<put name="content" value="/core/password.jsp"/>
 	</definition>
 	
 	<definition name=".profile" extends=".mainLayout">

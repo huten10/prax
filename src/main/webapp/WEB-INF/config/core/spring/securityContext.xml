@@ -19,6 +19,7 @@
 	<s:http auto-config="true" use-expressions="true">
 		<s:intercept-url pattern="/**" access="hasAnyRole('USER')" />
 		<s:intercept-url pattern="/user/list.do" access="hasAnyRole('ADMIN')" />
+		<s:intercept-url pattern="/user/restPassword.do" access="hasAnyRole('SUPER_ADMIN')" />
 		<s:custom-filter ref="wechatFilter" after="SECURITY_CONTEXT_FILTER" />
 		<s:form-login login-page="/login.do" default-target-url="/"
 			authentication-failure-url="/login.do?error=true" />
@@ -28,7 +29,7 @@
 	<!-- 认证配置, 使用userDetailsService提供的用户信息 -->
 	<s:authentication-manager alias="authenticationManager">
 		<s:authentication-provider user-service-ref="userDetailsService">
-			<s:password-encoder hash="plaintext" />
+			<s:password-encoder hash="md5" />
 		</s:authentication-provider>
 	</s:authentication-manager>
 	
@@ -37,7 +38,9 @@
 	</bean>
 
 	<!-- 项目实现的用户查询服务 -->
-	<bean id="userDetailsService" class="com.prax.core.security.UserDetailServiceImpl" />
+	<bean id="userDetailsService" class="com.prax.core.security.UserDetailServiceImpl" >
+		<property name="userService" ref="UserService"/>
+	</bean>
 
 	<bean id="wechatRedirectStrategy" class="com.prax.wechat.oauth2.WechatRedirectStrategy"/>
 	<oauth2:client id="wechatAuthFilter" redirect-strategy-ref="wechatRedirectStrategy"/>

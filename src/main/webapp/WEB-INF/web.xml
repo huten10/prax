@@ -84,6 +84,7 @@
 		<filter-name>domainFilter</filter-name>
 		<url-pattern>/wx/*</url-pattern>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>/j_spring_security_check</url-pattern>
 		<url-pattern>/</url-pattern>
 	</filter-mapping>
 	

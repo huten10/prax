@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ include file="/core/common/taglibs.jsp" %>
 <!-- BEGIN PAGE HEADER-->
 <div class="row-fluid">
@@ -32,6 +33,23 @@
 				<form action="save.do" id="profile_form" class="form-horizontal" method="POST">
 					<h3 class="form-section">用户信息</h3>
 					<input type="hidden" name="uuid" value="${user.uuid}">
+					<sec:authorize access="hasRole('SUPER_ADMIN')">
+					<div class="control-group">
+						<label class="control-label">登录名</label>
+						<div class="controls">
+							<input type="text" name="login" value="<c:out value="${user.login}"/>" data-msg-required="请输入姓名。" class="span6 m-wrap required">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">管理员</label>
+						<div class="controls chzn-controls">
+							<select data-with-diselect="1" name="admin" tabindex="1"  class="chosen span6 m-wrap ">
+								<option value="0" <c:if test="${!user.admin}">selected</c:if>>否</option>
+								<option value="1" <c:if test="${user.admin}">selected</c:if>>是</option>
+							</select>
+						</div>
+					</div>
+					</sec:authorize>
 					<div class="control-group">
 						<label class="control-label">昵称</label>
 						<div class="controls">
@@ -48,6 +66,12 @@
 						<label class="control-label">手机号<span class="required">*</span></label>
 						<div class="controls">
 							<input type="text" name="profile.mobile" value="<c:out value="${user.profile.mobile}"/>" data-msg-required="请输入手机号。" class="span6 m-wrap required">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">二维码</label>
+						<div class="controls">
+							<textarea name="profile.qrcode" class="span6 m-wrap" rows="2"><c:out value="${user.profile.qrcode}"/></textarea>
 						</div>
 					</div>
 					<div class="control-group">
