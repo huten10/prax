@@ -53,6 +53,7 @@
 		<action path="/user/save" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
 			<set-property property="dataAttribute" value="user"/>
 			<forward name="SUCCESS" path="/user/list.do"/>
+			<forward name="ERROR" path=".core.user.edit"/>
 		</action>
 		<action path="/user/delete" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
 			<forward name="SUCCESS" path="/user/list.do"/>

@@ -30,6 +30,11 @@
 				<div class="caption"><i class="icon-user"></i><c:if test="${user.uuid == null}">创建</c:if><c:if test="${user.uuid != null}">修改</c:if>用户</div>
 			</div>
 			<div class="portlet-body">
+				<c:if test="${!empty MESSAGE}">
+				<div class="alert alert-error fade in">
+		           	<c:out value="${MESSAGE}"/><button type="button" class="close" data-dismiss="alert"></button>
+		        </div>
+		        </c:if>
 				<form action="save.do" id="profile_form" class="form-horizontal" method="POST">
 					<h3 class="form-section">用户信息</h3>
 					<input type="hidden" name="uuid" value="${user.uuid}">
