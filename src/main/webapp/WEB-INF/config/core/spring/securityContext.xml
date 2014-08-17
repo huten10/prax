@@ -8,16 +8,52 @@
                         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd"
 	default-lazy-init="true">
 
-	<oauth2:resource id="wechatUserinfo" client-id="wx3b7aefa18b9d2545"
-		client-secret="49f9a60ae43d00a78978c85a75450196"
-		type="authorization_code" client-authentication-scheme="query"
-		user-authorization-uri="https://open.weixin.qq.com/connect/oauth2/authorize"
-		access-token-uri="https://api.weixin.qq.com/sns/oauth2/access_token"
-		pre-established-redirect-uri="http://54.187.0.194/prax/welcome.do"
-		scope="snsapi_base" />
+	<description>SpringSecurity安全配置</description>
+
+	<!-- http安全配置 -->
+	<s:http pattern="/" security="none"/>
+	<s:http pattern="/wx/**" security="none"/>
+	<s:http pattern="/media/**" security="none"/>
+	<s:http pattern="/login.do" security="none"/>
 	
-	<bean id="wechatOperations" class="com.prax.wechat.WechatOperations">
-		<property name="appId" value="wx3b7aefa18b9d2545"/>
-		<property name="secret" value="49f9a60ae43d00a78978c85a75450196"/>
+	<s:http auto-config="true" use-expressions="true">
+		<s:intercept-url pattern="/**" access="hasAnyRole('USER')" />
+		<s:intercept-url pattern="/user/list.do" access="hasAnyRole('ADMIN')" />
+		<s:intercept-url pattern="/user/restPassword.do" access="hasAnyRole('SUPER_ADMIN')" />
+		<s:custom-filter ref="wechatFilter" after="SECURITY_CONTEXT_FILTER" />
+		<s:form-login login-page="/login.do" default-target-url="/"
+			authentication-failure-url="/login.do?error=true" />
+		<s:logout logout-success-url="/welcome.do" />
+	</s:http>
+
+	<!-- 认证配置, 使用userDetailsService提供的用户信息 -->
+	<s:authentication-manager alias="authenticationManager">
+		<s:authentication-provider user-service-ref="userDetailsService">
+			<s:password-encoder hash="md5" />
+		</s:authentication-provider>
+	</s:authentication-manager>
+	
+	<bean id="domainFilter" class="com.prax.framework.controller.DomainFilter">
+		<property name="domainService" ref="DomainService"/>
+	</bean>
+
+	<!-- 项目实现的用户查询服务 -->
+	<bean id="userDetailsService" class="com.prax.core.security.UserDetailServiceImpl" >
+		<property name="userService" ref="UserService"/>
+	</bean>
+
+	<bean id="wechatRedirectStrategy" class="com.prax.wechat.oauth2.WechatRedirectStrategy"/>
+	<oauth2:client id="wechatAuthFilter" redirect-strategy-ref="wechatRedirectStrategy"/>
+	
+	<bean id="wechatAccessAuthenticateHandler" class="com.prax.wechat.oauth2.WechatClientAuthenticateHandler" />
+	<bean id="wechatAccessTokenProvider" class="com.prax.wechat.oauth2.WechatAccessTokenProvider">
+		<property name="authenticationHandler" ref="wechatAccessAuthenticateHandler"/>
+	</bean>
+	
+	<oauth2:rest-template id="wechatRestTemplate" resource="wechatUserinfo" access-token-provider="wechatAccessTokenProvider"/>
+
+	<bean id="wechatFilter" class="com.prax.wechat.oauth2.WechatAuthenticationFilter">
+		<property name="restTemplate" ref="wechatRestTemplate"/>
+		<property name="userService" ref="UserService"/>
 	</bean>
 </beans>
