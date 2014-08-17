@@ -7,7 +7,7 @@
                         http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd 
                         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd"
 	default-lazy-init="true">
-
+	
 	<oauth2:resource id="wechatUserinfo" client-id="wx3b7aefa18b9d2545"
 		client-secret="49f9a60ae43d00a78978c85a75450196"
 		type="authorization_code" client-authentication-scheme="query"
