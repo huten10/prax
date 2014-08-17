@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -106,6 +107,7 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
 		}
 		if (!BasicState.DELETED.equals(user.getState())) {
 			User user2 = getByLogin(user.getDomainUuid(), user.getLogin(), null);
+			getHibernateDao().getHibernateTemplate().evict(user2);
 			if (user2 != null && !user2.getUuid().equals(user.getUuid()))
 				throw new RuntimeException("用户登录名(" + user.getLogin() + ")已经存在。");
 		}

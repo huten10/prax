@@ -97,7 +97,7 @@
 							<input type="text" name="profile.address" value="<c:out value="${user.profile.address}"/>" class="span6 m-wrap">
 						</div>
 					</div>
-					<input class="btn btn-primary" type="submit" value="提交"/>&nbsp;
+					<input class="btn blue btn-primary" type="submit" value="提交"/>&nbsp;
 					<input class="btn btn-default" type="button" value="返回" onclick="history.back()"/>
 				</form>
 			</div>

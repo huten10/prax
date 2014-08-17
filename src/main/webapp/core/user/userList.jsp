@@ -76,8 +76,8 @@
 								<td>
 									<a href="<c:url value="/user/edit.do"/>?uuid=${o.uuid}" class="btn mini purple"><i class="icon-edit"></i> 修改</a>
 									<sec:authorize access="hasRole('SUPER_ADMIN')">
-									<a href="#modal_restpwd" role="button" class="btn mini purple" data-toggle="modal"><i class="icon-cog"></i> 重置密码</a>
-									<div id="modal_restpwd" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel3" aria-hidden="true">
+									<a href="#modal_${o.uuid}" role="button" class="btn mini purple" data-toggle="modal"><i class="icon-cog"></i> 重置密码</a>
+									<div id="modal_${o.uuid}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel3" aria-hidden="true">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 											<h3 id="modalLabel3">重置密码</h3>
