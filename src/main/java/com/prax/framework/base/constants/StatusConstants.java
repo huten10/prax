@@ -11,7 +11,6 @@ public interface StatusConstants {
 	// Status Constants
 	public static final String SUCCESS = "SUCCESS";
 	public static final String ERROR = "ERROR";
-	public static final String Error = "Error";
 	public static final String CANCEL = "CANCEL";
 	public static final String SUCCESS_NODATA = "SUCCESS_NODATA";
 	public static final String SUCCESSNODATA = "SUCCESSNODATA";

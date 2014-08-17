@@ -15,6 +15,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.prax.framework.base.model.DomainEntity;
@@ -62,6 +63,8 @@ public class Profile extends DomainEntity {
 	private String company;
 
 	private String address;
+	
+	private String qrcode;
 
 	@Column
 	public String getName() {
@@ -99,6 +102,7 @@ public class Profile extends DomainEntity {
 		this.openId = openId;
 	}
 
+	@Lob 
 	@Column
 	public String getNickName() {
 		return nickName;
@@ -197,5 +201,13 @@ public class Profile extends DomainEntity {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	@Column
+	public String getQrcode() {
+		return qrcode;
+	}
 
+	public void setQrcode(String qrcode) {
+		this.qrcode = qrcode;
+	}
 }

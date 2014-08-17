@@ -3,7 +3,11 @@ package com.prax.core.user.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prax.core.domain.service.DomainService;
@@ -13,6 +17,7 @@ import com.prax.framework.base.model.BasicState;
 import com.prax.framework.base.model.UCN;
 import com.prax.framework.base.service.ServiceImpl;
 import com.prax.framework.context.Context;
+import com.prax.framework.util.Digests;
 
 /**
  * @author Alvin.Hu
@@ -77,9 +82,45 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
 		return user;
 	}
 
-	public void changePassword(String userUuid, long oca, String oldPassword, String newPassword) {
-		// TODO Auto-generated method stub
+	public void add(User user) {
+		checkLogin(user);
+		entryptPassword(user);
+		getHibernateDao().add(user);
+	}
 
+	public void update(User user) {
+		checkLogin(user);
+		entryptPassword(user);
+		getHibernateDao().update(user);
+	}
+
+	private void entryptPassword(User user) {
+		if (StringUtils.isNotBlank(user.getPlainPassword())) {
+			user.setPassword(Digests.md5(user.getPlainPassword()));
+		}
+	}
+
+	private void checkLogin(User user) {
+		if ("ADMIN".equalsIgnoreCase(user.getLogin())) {
+			throw new RuntimeException("用户登录名(ADMIN)已经存在。");
+		}
+		if (!BasicState.DELETED.equals(user.getState())) {
+			User user2 = getByLogin(user.getDomainUuid(), user.getLogin(), null);
+			if (user2 != null && !user2.getUuid().equals(user.getUuid()))
+				throw new RuntimeException("用户登录名(" + user.getLogin() + ")已经存在。");
+		}
+	}
+
+	public void changePassword(String userUuid, String oldPassword, String newPassword) {
+
+		User user = get(userUuid, null);
+		if (user == null)
+			throw new BadCredentialsException("用户不存在。");
+		if (!ObjectUtils.equals(new Md5PasswordEncoder().encodePassword(oldPassword, null), user.getPassword()))
+			throw new BadCredentialsException("密码验证不通过。");
+
+		user.setPlainPassword(newPassword);
+		update(user);
 	}
 
 	public void assignRoles(String userUuid, long userOca, Collection<String> roleUuids) {

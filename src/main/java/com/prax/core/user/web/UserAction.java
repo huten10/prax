@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.DataBinder;
 
 import com.prax.core.user.entity.Profile;
 import com.prax.core.user.entity.User;
@@ -61,6 +62,9 @@ public class UserAction extends BaseAction {
 		else if ("doRegister".equalsIgnoreCase(methodId)) {
 			return true;
 		}
+		else if ("doPassword".equalsIgnoreCase(methodId)) {
+			return true;
+		}
 		else if ("doProfile".equalsIgnoreCase(methodId)) {
 			return true;
 		}
@@ -82,6 +86,9 @@ public class UserAction extends BaseAction {
 		else if ("doSyncUser".equalsIgnoreCase(methodId)) {
 			return true;
 		}
+		else if ("doResetPassword".equalsIgnoreCase(methodId)) {
+			return true;
+		}
 		return super.isHttpMethodAllowed(httpMethod, methodId);
 	}
 
@@ -92,6 +99,31 @@ public class UserAction extends BaseAction {
 
 	public Object doRegister(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		return SUCCESS;
+	}
+
+	public Object doPassword(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		return SUCCESS;
+	}
+
+	public Object doChangePassword(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String oldPassword = request.getParameter("oldPassword");
+		String newPassword = request.getParameter("newPassword");
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User currentUser = (User) auth.getPrincipal();
+
+		try {
+			userService.changePassword(currentUser.getUuid(), oldPassword, newPassword);
+			request.setAttribute("MESSAGE", "ÐÞ¸ÄÃÜÂë³É¹¦");
+		}
+		catch (Exception e) {
+			request.setAttribute("MESSAGE", e.getMessage());
+		}
+
 		return SUCCESS;
 	}
 
@@ -113,7 +145,9 @@ public class UserAction extends BaseAction {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User currentUser = (User) auth.getPrincipal();
 		User user = userService.get(currentUser.getUuid(), new String[] { "profile" });
-		getBinder(user, bam, request);
+		DataBinder binder = getBinder(user, bam);
+
+		binder.setDisallowedFields("");
 		userService.update(user);
 
 		currentUser.setProfile(user.getProfile());
@@ -190,6 +224,14 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	public Object doResetPassword(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		User user = userService.get(getUuid(request), new String[] { "profile" });
+		user.setPlainPassword("123456");
+		userService.update(user);
+		return SUCCESS;
+	}
+
 	public Object doEdit(BaseActionMapping bam, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
@@ -229,8 +271,17 @@ public class UserAction extends BaseAction {
 		else
 			user = userService.get(getUuid(request), new String[] { "profile" });
 
+		request.setAttribute(bam.getDataAttribute(), user);
 		getBinder(user, bam, request);
-		userService.add(user);
+
+		try {
+			userService.add(user);
+		}
+		catch (Exception e) {
+			request.setAttribute("MESSAGE", e.getMessage());
+			return ERROR;
+		}
+		
 
 		return SUCCESS;
 	}

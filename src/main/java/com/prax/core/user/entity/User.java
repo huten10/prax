@@ -47,6 +47,10 @@ public class User extends DomainEntity implements UserDetails {
 
 	private String password;
 
+	private String plainPassword;
+
+	private Boolean admin = Boolean.FALSE;
+
 	private Boolean online = Boolean.TRUE;
 
 	private Date validFrom;
@@ -108,6 +112,25 @@ public class User extends DomainEntity implements UserDetails {
 		this.password = password;
 	}
 
+	@Transient
+	public String getPlainPassword() {
+		return plainPassword;
+	}
+
+	public void setPlainPassword(String plainPassword) {
+		this.plainPassword = plainPassword;
+	}
+
+	/** ∆Ù”√ */
+	@Column(name = "admin", nullable = false)
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
 	/** ∆Ù”√ */
 	@Column(name = "FOnline", nullable = true)
 	public Boolean getOnline() {
@@ -164,11 +187,15 @@ public class User extends DomainEntity implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = Sets.newHashSet();
 		authorities.add(new SimpleGrantedAuthority("USER"));
-		if (StringUtils.isBlank(extenralId)) {
+		if (!StringUtils.isBlank(extenralId)) {
+			authorities.add(new SimpleGrantedAuthority("WECHAT_USER"));
+		}
+		
+		if(getAdmin() != null && getAdmin()){
 			authorities.add(new SimpleGrantedAuthority("ADMIN"));
 		}
-		else {
-			authorities.add(new SimpleGrantedAuthority("WECHAT_USER"));
+		if ("ADMIN".equalsIgnoreCase(login)) {
+			authorities.add(new SimpleGrantedAuthority("SUPER_ADMIN"));
 		}
 		return authorities;
 	}
@@ -195,7 +222,7 @@ public class User extends DomainEntity implements UserDetails {
 
 	@Transient
 	public boolean isEnabled() {
-		return true;
+		return getOnline();
 	}
 
 }

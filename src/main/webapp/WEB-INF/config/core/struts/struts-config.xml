@@ -64,7 +64,6 @@
 		<action path="/user/resetPassword" type="com.prax.core.user.web.UserAction" name="bindingForm" scope="request">
 			<forward name="SUCCESS" path="/user/list.do" redirect="true"/>
 		</action>
-		
 	</action-mappings>
 	
 	<controller processorClass="org.springframework.web.struts.AutowiringTilesRequestProcessor"/>
